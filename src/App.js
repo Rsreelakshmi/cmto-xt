@@ -7,11 +7,12 @@ import {
   Redirect,
   Switch
 } from "react-router-dom";
-import LoadableHomepage from "./loadable/LoadableHomepage";
+import LoadableLoginpage from "./loadable/LoadableLoginpage";
 import theme from "./utils/theme";
 import store from "./store";
 import { Provider } from "react-redux";
 import "./App.css";
+import LoadableHomepage from "./loadable/LoadableHomepage";
 
 class App extends Component {
   render() {
@@ -22,8 +23,18 @@ class App extends Component {
             <CssBaseline />
             <MuiThemeProvider theme={theme}>
               <Switch>
+                <Route path="/login" component={LoadableLoginpage} />
                 <Route path="/home" component={LoadableHomepage} />
-                <Redirect from="/" to="/home" />
+                <Route
+                    path="/"
+                    render={() => {
+                      if (sessionStorage.getItem('userData')) {
+                        return <Redirect to="/home" />;
+                      } else {
+                        return <Redirect to="/login" />;
+                      }
+                    }}
+                  />
               </Switch>
             </MuiThemeProvider>
           </React.Fragment>
